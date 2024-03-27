@@ -9,21 +9,44 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const select = document.querySelector("select");
 
+    const roles = ["top", "jungle", "mid", "adc", "support"]
     const rol = select.value;
 
-    $.ajax({
-      url: "champs.json",
-      dataType: "json",
-      success: function (response) {
-        const campeones = response[rol];
+    switch (rol) {
+      case "all":
+        $.ajax({
+          url: "champs.json",
+          dataType: "json",
+          success: function (response) {
+            const roles = Object.keys(response);
 
-        const random = Math.floor(Math.random() * campeones.length);
-
-        const campeon = campeones[random];
-
-        campeonElegido.textContent = campeon.nombre;
-        campeonImage.src = campeon.imagen;
-      },
-    });
+            const randomRol = roles[Math.floor(Math.random() * roles.length)];
+            const campeones = response[randomRol];
+    
+            const random = Math.floor(Math.random() * campeones.length);
+            const campeon = campeones[random];
+    
+            campeonElegido.textContent = campeon.nombre;
+            campeonImage.src = campeon.imagen;
+          },
+        });
+        break;
+      default:
+        $.ajax({
+          url: "champs.json",
+          dataType: "json",
+          success: function (response) {
+            const campeones = response[rol];
+    
+            const random = Math.floor(Math.random() * campeones.length);
+    
+            const campeon = campeones[random];
+    
+            campeonElegido.textContent = campeon.nombre;
+            campeonImage.src = campeon.imagen;
+          },
+        });
+        break;
+    }
   });
 });
